@@ -7,8 +7,9 @@ public class Main {
 
 
 
-       //CalculadoraBeta cal = new CalculadoraBeta();
-        //VentanaGroupLayout mia = new VentanaGroupLayout();
-    Calculadora cal= new Calculadora();
+        //CalculadoraBeta cal = new CalculadoraBeta();
+        // VentanaGroupLayout mia = new VentanaGroupLayout();
+
+        Calculadora cal= new Calculadora();
     }
 }

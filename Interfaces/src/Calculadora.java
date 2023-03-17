@@ -2,9 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 /**
- * @author monic on 09/03/2023.
+ * @author monica & bruno on 09/03/2023.
  * @project Interfaces
  */
 public class Calculadora extends JFrame {
@@ -29,14 +30,18 @@ public class Calculadora extends JFrame {
     private JButton botonMultiplicador=new JButton("x");
     private JButton botonDivisor=new JButton("/");
     private JButton botonIgual=new JButton("=");
-    private JButton botonComa=new JButton(",");
+    private JButton botonComa=new JButton(".");
 
     private JButton borrarPanel= new JButton("CE");
 
-    int posicion1=0;
+    private  JPanel panelIgual= new JPanel();
 
-    int posicion2=0;
+    double posicion1=0;
+
+    double posicion2=0;
     String simbolo="";
+
+    DecimalFormat formato = new DecimalFormat("#.###");
 
 
     Calculadora(){
@@ -44,32 +49,17 @@ public class Calculadora extends JFrame {
 
 
         this.setSize(300,500);
-
         panelSuperior.setLayout(new FlowLayout());
+        panelSuperior.setSize(500,100);
         panelSuperior.add(ventana);
+        panelSuperior.add(borrarPanel);
+
+
 
 
 
         panelInferior.setLayout(new GridLayout(4,4,10,10));
 
-
-/*
-        botones[0] = new JButton("1");
-        botones[1]= new JButton("2");
-        botones[2]= new JButton("3");
-        botones[3]= new JButton("4");
-        botones[4]= new JButton("5");
-        botones[5]= new JButton("6");
-        botones[6]= new JButton("7");
-        botones[7]= new JButton("8");
-        botones[8]= new JButton("9");
-        botones[9]= new JButton("+");
-        botones[10]= new JButton("-");
-        botones[11]= new JButton("%");
-        botones[12]= new JButton("x");
-        botones[13]= new JButton("=");
-        botones[14]=new JButton("0");
-        botones[15]=new JButton(",");*/
 
             panelInferior.add(boton1);
             panelInferior.add(boton2);
@@ -86,7 +76,7 @@ public class Calculadora extends JFrame {
            panelInferior.add(boton9);
            panelInferior.add(botonDivisor);
 
-           panelInferior.add(borrarPanel);
+           panelInferior.add(botonComa);
            panelInferior.add(boton0);
            panelInferior.add(botonIgual);
            panelInferior.add(botonMultiplicador);
@@ -159,11 +149,17 @@ public class Calculadora extends JFrame {
                 ventana.setText(ventana.getText()+boton9.getText());
             }
         });
+        botonComa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ventana.setText(ventana.getText()+".");
+            }
+        });
 
         botonSuma.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                posicion1=Integer.parseInt(ventana.getText());
+                posicion1=Double.parseDouble(ventana.getText());
 
                 ventana.setText("");
 
@@ -173,7 +169,7 @@ public class Calculadora extends JFrame {
         botonResta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                posicion1=Integer.parseInt(ventana.getText());
+                posicion1=Double.parseDouble(ventana.getText());
                 ventana.setText("");
                 simbolo="-";
             }
@@ -181,7 +177,7 @@ public class Calculadora extends JFrame {
         botonMultiplicador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                posicion1=Integer.parseInt(ventana.getText());
+                posicion1=Double.parseDouble(ventana.getText());
                 ventana.setText("");
                 simbolo="x";
             }
@@ -189,7 +185,7 @@ public class Calculadora extends JFrame {
         botonDivisor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                posicion1=Integer.parseInt(ventana.getText());
+                posicion1=Double.parseDouble(ventana.getText());
                 ventana.setText("");
                 simbolo="/";
             }
@@ -201,30 +197,36 @@ public class Calculadora extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                posicion2=Integer.parseInt(ventana.getText());
+                posicion2=Double.parseDouble(ventana.getText());
 
                 switch (simbolo){
                     case "+":
-                        String suma=posicion1+posicion2+"";
-                        ventana.setText(suma);
-                        posicion1=Integer.parseInt(suma);
+                        String suma=(formato.format( posicion1 + posicion2))+"";
+
+                        ventana.setText(suma.replaceAll(",","."));
+                        posicion1=Double.parseDouble(suma);
+
+
+
                         break;
                     case "-":
-                        String resta=posicion1-posicion2+"";
-                        ventana.setText(resta);
-                        posicion1=Integer.parseInt(resta);
+                        String resta=(formato.format( posicion1 - posicion2))+"";
+
+                        ventana.setText(resta.replaceAll(",","."));
+                        posicion1=Double.parseDouble(resta);
 
                         break;
                     case "/":
-                        String division=posicion1/posicion2+"";
-                        ventana.setText(division);
-                        posicion1=Integer.parseInt(division);
+                        String division=(formato.format(posicion1/posicion2))+"";
+                        //String resultado= String.valueOf(String.format("%.3f",division));
+                        ventana.setText(division.replaceAll(",","."));
+                        posicion1=Double.parseDouble(division);
 
-                        break;
+                       break;
                     case "x":
-                        String multiplica= posicion1*posicion2+"";
-                        ventana.setText(multiplica);
-                        posicion1=Integer.parseInt(multiplica);
+                        String multiplica= (formato.format(posicion1*posicion2))+"";
+                        ventana.setText(multiplica.replaceAll(",","."));
+                        posicion1=Double.parseDouble(multiplica);
 
                         break;
 
@@ -253,14 +255,6 @@ public class Calculadora extends JFrame {
     }
 
 
-    class botonOyente implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-
-        }
-    }
 
 
 
